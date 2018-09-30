@@ -2507,6 +2507,8 @@ var TreeStyleTabBase = inherit(TreeStyleTabConstants, {
 				return this.indentDuration = value;
 			case 'extensions.treestyletab.animation.collapse.duration':
 				return this.collapseDuration = value;
+			case 'extensions.treestyletab.animation.drag.enabled':
+				return this.dragAnimation = value;
 
 			case 'extensions.treestyletab.twisty.expandSensitiveArea':
 				return this.shouldExpandTwistyArea = value;
