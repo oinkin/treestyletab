@@ -6,3 +6,7 @@ This is a fork of YUKI "Piro" Hiroshi's indispensable Tree Style Tabs addon for 
 ## Maintenance
 
 I'm happy to accept pull requests but I will only be personally fixing bugs that impact my use of the addon. 
+
+## Donations
+
+While donation offers are deeply appreciated, none will be accepted. Please donate to your local food bank instead.
