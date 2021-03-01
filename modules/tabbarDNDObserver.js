@@ -931,17 +931,19 @@ try{
 
 		let draggedTab = aEvent.dataTransfer && aEvent.dataTransfer.mozGetDataAt(TAB_DROP_TYPE, 0);
 		let dragOverTab = sv.getTabFromEvent(aEvent) || sv.getTabFromTabbarEvent(aEvent) || aEvent.target;
-		b.ownerDocument.defaultView['piro.sakura.ne.jp'].tabsDragUtils
-			.processTabsDragging(aEvent, {
-				canDropOnSelf : !dragOverTab || !dragOverTab.pinned,
-				isVertical : (
-					b.ownerDocument.defaultView['piro.sakura.ne.jp'].tabsDragUtils.isVertical(b.tabContainer) &&
-					(
-						(draggedTab && !draggedTab.pinned) ||
-						!utils.getTreePref('pinnedTab.faviconized')
+		if (sv.dragAnimation){
+			b.ownerDocument.defaultView['piro.sakura.ne.jp'].tabsDragUtils
+				.processTabsDragging(aEvent, {
+					canDropOnSelf : !dragOverTab || !dragOverTab.pinned,
+					isVertical : (
+						b.ownerDocument.defaultView['piro.sakura.ne.jp'].tabsDragUtils.isVertical(b.tabContainer) &&
+						(
+							(draggedTab && !draggedTab.pinned) ||
+							!utils.getTreePref('pinnedTab.faviconized')
+						)
 					)
-				)
-			});
+				});
+		}
 
 		/**
 		 * We must calculate drop action after tabsDragUtils.processTabsDragging(),
@@ -1001,14 +1003,16 @@ try{
 			indicatorTab.getAttribute(sv.kDROP_POSITION) != dropPosition) {
 			this.clearDropPosition();
 			indicatorTab.setAttribute(sv.kDROP_POSITION, dropPosition);
-			if (b.ownerDocument.defaultView['piro.sakura.ne.jp'].tabsDragUtils
+			if (sv.dragAnimation){
+				if (b.ownerDocument.defaultView['piro.sakura.ne.jp'].tabsDragUtils
 					.canAnimateDraggedTabs(aEvent)) {
-				let newOpacity = dropPosition == 'self' ? 0.35 : 0.75 ; // to prevent the dragged tab hides the drop target itself
-				this.window['piro.sakura.ne.jp'].tabsDragUtils.getDraggedTabs(aEvent).forEach(function(aTab) {
-					if (!('__treestyletab__opacityBeforeDragged' in aTab))
-						aTab.__treestyletab__opacityBeforeDragged = aTab.style.opacity || '';
-					aTab.style.opacity = newOpacity;
-				});
+					let newOpacity = dropPosition == 'self' ? 0.35 : 0.75 ; // to prevent the dragged tab hides the drop target itself
+					this.window['piro.sakura.ne.jp'].tabsDragUtils.getDraggedTabs(aEvent).forEach(function(aTab) {
+						if (!('__treestyletab__opacityBeforeDragged' in aTab))
+							aTab.__treestyletab__opacityBeforeDragged = aTab.style.opacity || '';
+						aTab.style.opacity = newOpacity;
+					});
+				}
 			}
 		}
 
